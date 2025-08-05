@@ -5,7 +5,7 @@
         <h1 class="text-2xl font-bold">You are not Authorized to view this page</h1>
         <p class="mt-4">
 
-            <a href="/PHP/PHP_Partials/index" class="text-blue-500 underline">Go Back Home</a>
+            <a href="/index" class="text-blue-500 underline">Go Back Home</a>
         </p>
     </div>
 </main>

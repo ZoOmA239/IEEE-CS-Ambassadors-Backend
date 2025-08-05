@@ -8,19 +8,21 @@
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4">
                         <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                        <a href="/PHP/PHP_Partials/index" aria-current="page"
+                        <a href="/index" aria-current="page"
                             class="<?= /*$_SERVER['REQUEST_URI'] === '/PHP/PHP_Partials/index.php'*/ urlIs('/PHP/PHP_Partials/index') ? 'bg-gray-900 text-white' : 'text-gray-300' ?> rounded-md hover:bg-gray-700 px-3 py-2 text-sm font-medium">
                             Home
                         </a>
-                        <a href="/PHP/PHP_Partials/about"
+                        <a href="/about"
                             class="<?= /*$_SERVER['REQUEST_URI'] === '/PHP/PHP_Partials/about.php'*/ urlIs('/PHP/PHP_Partials/about') ? 'bg-gray-900 text-white' : 'text-gray-300' ?> rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-700 hover:text-white">
                             About
                         </a>
-                        <a href="/PHP/PHP_Partials/notes"
-                            class="<?= /*$_SERVER['REQUEST_URI'] === '/PHP/PHP_Partials/about.php'*/ urlIs('/PHP/PHP_Partials/notes') ? 'bg-gray-900 text-white' : 'text-gray-300' ?> rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-700 hover:text-white">
-                            Notes
-                        </a>
-                        <a href="/PHP/PHP_Partials/contact"
+                        <?php if ($_SESSION['user'] ?? false) : ?>
+                            <a href="/notes"
+                                class="<?= /*$_SERVER['REQUEST_URI'] === '/PHP/PHP_Partials/about.php'*/ urlIs('/PHP/PHP_Partials/notes') ? 'bg-gray-900 text-white' : 'text-gray-300' ?> rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-700 hover:text-white">
+                                Notes
+                            </a>
+                        <?php endif ?>
+                        <a href="/contact"
                             class="<?= /*$_SERVER['REQUEST_URI'] === '/PHP/PHP_Partials/contact.php'*/ urlIs('/PHP/PHP_Partials/contact') ? 'bg-gray-900 text-white' : 'text-gray-300' ?> rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-700 hover:text-white">
                             Contact
                         </a>
@@ -38,19 +40,35 @@
                     </button>
 
                     <!-- Profile dropdown -->
-                    <el-dropdown class="relative ml-3">
-                        <button class="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-hidden focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-gray-800">
-                            <span class="absolute -inset-1.5"></span>
-                            <span class="sr-only">Open user menu</span>
-                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" class="size-8 rounded-full" />
-                        </button>
+                    <?php if ($_SESSION['user'] ?? false) : ?>
+                        <div class="relative ml-3">
+                            <button type="button"
+                                class="flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                                id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                                <span class="sr-only">Open user menu</span>
 
-                        <el-menu anchor="bottom end" popover class="w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 transition transition-discrete [--anchor-gap:--spacing(2)] focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in">
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 focus:bg-gray-100 focus:outline-hidden">Your Profile</a>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 focus:bg-gray-100 focus:outline-hidden">Settings</a>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 focus:bg-gray-100 focus:outline-hidden">Sign out</a>
-                        </el-menu>
-                    </el-dropdown>
+                                <img class="h-8 w-8 rounded-full"
+                                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                    alt="">
+                            </button>
+                        </div>
+
+                        <div class="ml-3">
+                            <form method="POST" action="/session">
+                                <input type="hidden" name="_method" value="DELETE" />
+
+                                <button class="text-white">Log Out</button>
+                            </form>
+                        </div>
+                    <?php else : ?>
+                        <div class="ml-3">
+                            <a href="/register"
+                                class="<?= urlIs('/register') ? 'bg-gray-900 text-white' : 'text-gray-300' ?> hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Register</a>
+                            <a href="/login"
+                                class="<?= urlIs('/login') ? 'bg-gray-900 text-white' : 'text-gray-300' ?> hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Log
+                                In</a>
+                        </div>
+                    <?php endif ?>
                 </div>
             </div>
             <div class="-mr-2 flex md:hidden">
